@@ -1,0 +1,99 @@
+// -----------------------------------------------
+// 1. Define Study Area (replace with your asset)
+// -----------------------------------------------
+Map.centerObject(table, 10);
+Map.addLayer(table, {}, "Field Plots");
+
+// -----------------------------------------------
+// 2. Define Time Range
+// -----------------------------------------------
+var startDate = '2025-06-01';
+var endDate   = '2025-06-29';
+
+// -----------------------------------------------
+// 3. Load Sentinel-2 L2A
+// -----------------------------------------------
+var s2 = ee.ImageCollection("COPERNICUS/S2_SR")
+  .filterBounds(table)
+  .filterDate(startDate, endDate)
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 50));
+
+var s2cloudless = ee.ImageCollection("COPERNICUS/S2_CLOUD_PROBABILITY")
+  .filterBounds(table)
+  .filterDate(startDate, endDate);
+
+// Join S2 + cloud probability
+var join = ee.Join.saveFirst('cloud_mask');
+var joinFilter = ee.Filter.equals({
+  leftField: 'system:index',
+  rightField: 'system:index'
+});
+
+var s2Joined = join.apply(s2, s2cloudless, joinFilter);
+
+// Cloud masking function
+function maskS2Clouds(img) {
+  var cloudProb = ee.Image(img.get('cloud_mask'));
+  var mask = ee.Algorithms.If(
+    cloudProb,
+    cloudProb.lt(40),
+    ee.Image(1)
+  );
+  return img.updateMask(ee.Image(mask));
+}
+
+var s2Masked = ee.ImageCollection(s2Joined).map(maskS2Clouds);
+
+// -----------------------------------------------
+// 4. Compute NDVI ONLY
+// -----------------------------------------------
+function addNDVI(img) {
+  var ndvi = img.normalizedDifference(['B8', 'B4']).rename('NDVI');
+  return img.addBands(ndvi);
+}
+
+var withNDVI = s2Masked.map(addNDVI);
+
+// -----------------------------------------------
+// 5. Create Composite (max NDVI)
+// -----------------------------------------------
+var ndviComposite = withNDVI
+  .select('NDVI')
+  .max()
+  .clip(table);
+
+Map.addLayer(
+  ndviComposite,
+  {min: 0, max: 1, palette: ['brown', 'yellow', 'green']},
+  'NDVI'
+);
+
+// -----------------------------------------------
+// 6. Reproject to UTM Zone 38N
+// -----------------------------------------------
+var utm38 = ee.Projection('EPSG:32638');
+
+var ndviUTM = ndviComposite.reproject({
+  crs: utm38,
+  scale: 10
+});
+
+// -----------------------------------------------
+// 7. Export NDVI ONLY
+// -----------------------------------------------
+Export.image.toDrive({
+  image: ndviUTM,
+  description: 'NDVI_2025_UTM38',
+  folder: 'GEE_exports',
+  fileNamePrefix: 'ndvi_2025_06_utm38',
+  region: table.geometry(),
+  scale: 10,
+  maxPixels: 1e13
+});
+
+// -----------------------------------------------
+// 8. Diagnostics
+// -----------------------------------------------
+print('S2 raw count:', s2.size());
+print('Cloud prob count:', s2cloudless.size());
+print('Masked image count:', s2Masked.size());
