@@ -18,8 +18,8 @@ st.title("Geospatial Suitability Analysis Dashboard")
 # ------------------------
 @st.cache_data
 def load_data():
-    df_main = pd.read_excel("Qarabagh/suit_binary.xlsx")
-    df_ndvi = pd.read_excel("Qarabagh/Suitability_pasture_ha.xlsx")
+    df_main = pd.read_excel("data/suit_binary.xlsx")
+    df_ndvi = pd.read_excel("data/Suitability_pasture_ha.xlsx")
     return df_main, df_ndvi
 
 df_main, df_ndvi = load_data()
