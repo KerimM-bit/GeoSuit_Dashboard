@@ -4,6 +4,7 @@
 An interactive **geospatial decision-support dashboard** for evaluating summer pasture suitability using terrain constraints and vegetation indicators (NDVI).
 
 The dashboard is designed to **communicate spatial insights clearly** to both technical and non-technical users, focusing on interpretation rather than raw processing ( Click the link below to see the dashboard via streamlit).
+
 ---
 https://geosuitdashboard-pasture-suitability.streamlit.app 
 ---
