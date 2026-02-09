@@ -84,24 +84,6 @@ These criteria reflect **known summer pasture characteristics** in mountainous r
 > All raster processing, spatial modeling, and zonal statistics were performed **offline** using GIS and remote sensing tools.  
 > The dashboard does **not** process rasters dynamically.
 
----
-
-## 🧱 Project Structure
-project/
-│
-├─ app.py
-├─ data/
-│ ├─ Suitability_V1.csv
-│ └─ Suitability_pasture_ha.csv
-│
-├─ maps/
-│ ├─ qarabagh_elevation.jpg
-│ ├─ kalbajar_ndvi_suit.jpg
-│ ├─ lacin_ndvi_suit.jpg
-│
-└─ README.md
-
-
 ## 🚀 Technologies Used
 
 - **Python**
