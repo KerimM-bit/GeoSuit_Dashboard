@@ -84,7 +84,27 @@ These criteria reflect **known summer pasture characteristics** in mountainous r
 > All raster processing, spatial modeling, and zonal statistics were performed **offline** using GIS and remote sensing tools.  
 > The dashboard does **not** process rasters dynamically.
 
+## 🚀 Technologies Used
+
+- **Python**
+- **Streamlit** – interactive dashboard
+- **Pandas** – data handling
+- **Plotly** – interactive charts
+- **GIS / Remote Sensing tools** (offline processing)
+
 ---
 
-## 🧱 Project Structure
+## 👤 Author
+
+**Karim Mirzayev**  
+GIS & Remote Sensing Specialist  
+
+This project was developed as part of applied geospatial analytics work, combining **GIS modeling**, **remote sensing validation**, and **decision-oriented visualization**.
+
+---
+
+## 📌 Disclaimer
+
+This dashboard is intended for **exploratory analysis and decision support**.  
+Results depend on input data quality, spatial resolution, and chosen criteria.
 
