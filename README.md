@@ -87,4 +87,42 @@ These criteria reflect **known summer pasture characteristics** in mountainous r
 ---
 
 ## 🧱 Project Structure
+project/
+│
+├─ app.py
+├─ data/
+│ ├─ Suitability_V1.csv
+│ └─ Suitability_pasture_ha.csv
+│
+├─ maps/
+│ ├─ qarabagh_elevation.jpg
+│ ├─ kalbajar_ndvi_suit.jpg
+│ ├─ lacin_ndvi_suit.jpg
+│
+└─ README.md
+
+
+## 🚀 Technologies Used
+
+- **Python**
+- **Streamlit** – interactive dashboard
+- **Pandas** – data handling
+- **Plotly** – interactive charts
+- **GIS / Remote Sensing tools** (offline processing)
+
+---
+
+## 👤 Author
+
+**Karim Mirzayev**  
+GIS & Remote Sensing Specialist  
+
+This project was developed as part of applied geospatial analytics work, combining **GIS modeling**, **remote sensing validation**, and **decision-oriented visualization**.
+
+---
+
+## 📌 Disclaimer
+
+This dashboard is intended for **exploratory analysis and decision support**.  
+Results depend on input data quality, spatial resolution, and chosen criteria.
 
